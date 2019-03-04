@@ -1,0 +1,10 @@
+logging:
+  file: /var/log/spring-boot.log
+  level.*: INFO
+  level.cn.blmdz: INFO
+
+server:
+  context-path: /
+  port: 8080
+  session:
+    timeout: 1800
