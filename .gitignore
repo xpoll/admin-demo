@@ -31,3 +31,5 @@ logging.fileDir*
 /target/
 **/main/resources/static/
 **/application-local.yaml
+*
+!.gitignore
