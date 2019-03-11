@@ -2,12 +2,18 @@ package cn.blmdz.admin.config;
 
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.pagehelper.PageHelper;
@@ -17,6 +23,7 @@ import com.github.pagehelper.PageHelper;
  * @author xpoll
  */
 @Configuration
+@MapperScan("cn.blmdz.admin.dao")
 public class AdminConfiguration implements WebMvcConfigurer {
     
 	/**
@@ -60,6 +67,19 @@ public class AdminConfiguration implements WebMvcConfigurer {
          * response.setHeader("Access-Control-Max-Age", "3600");
          * response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
          */
+    }
+    
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(new HandlerInterceptor() {
+        	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+        			ModelAndView modelAndView) throws Exception {
+        		if (response.getStatus() == 404 && modelAndView != null)
+        			modelAndView.setViewName("/404.html");
+        	}
+		});
     }
 	
 }
