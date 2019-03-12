@@ -30,7 +30,6 @@ public class GlobalExceptionHandler {
 	@ResponseBody
     public Response<?> exceptionHandler(
     		Exception e) throws Exception {
-        e.printStackTrace();
         
         if (e instanceof AdminException) {
             log.debug("WAppletException: {}", e.getMessage());
@@ -73,8 +72,8 @@ public class GlobalExceptionHandler {
             return Response.build(null).buildEnum(EnumsError.ERROR_8003);
         }
         
-        
         log.debug("Exception");
+        e.printStackTrace();
         return Response.build(null).orNull(EnumsError.ERROR_9999);
     }
 }

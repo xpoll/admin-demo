@@ -15,11 +15,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.google.common.collect.Maps;
 
-import cn.blmdz.admin.AuthorizationLevelDescriptionAdvisor;
-import cn.blmdz.admin.services.realm.MyFilterFormAuthentication;
-import cn.blmdz.admin.services.realm.MyFilterPermissionsAuthorizationFilter;
-import cn.blmdz.admin.services.realm.MyFilterRolesAuthorizationFilter;
-import cn.blmdz.admin.services.realm.NexusRealm;
+import cn.blmdz.admin.services.shiro.AuthorizationLevelDescriptionAdvisor;
+import cn.blmdz.admin.services.shiro.NexusRealm;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
 
@@ -107,12 +104,12 @@ public class ShiroConfiguration {
 
       ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
       shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
-      shiroFilterFactoryBean.setLoginUrl("/login");
-      shiroFilterFactoryBean.setSuccessUrl("/success");
-      shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
-      shiroFilterFactoryBean.getFilters().put("authc", new MyFilterFormAuthentication());
-      shiroFilterFactoryBean.getFilters().put("perms", new MyFilterPermissionsAuthorizationFilter());
-      shiroFilterFactoryBean.getFilters().put("roles", new MyFilterRolesAuthorizationFilter());
+//      shiroFilterFactoryBean.setLoginUrl("/login");
+//      shiroFilterFactoryBean.setSuccessUrl("/success");
+//      shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
+//      shiroFilterFactoryBean.getFilters().put("authc", new MyFilterFormAuthentication());
+//      shiroFilterFactoryBean.getFilters().put("perms", new MyFilterPermissionsAuthorizationFilter());
+//      shiroFilterFactoryBean.getFilters().put("roles", new MyFilterRolesAuthorizationFilter());
       /**
        * anon  org.apache.shiro.web.filter.authc.AnonymousFilter
        * authc org.apache.shiro.web.filter.authc.FormAuthenticationFilter

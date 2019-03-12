@@ -1,4 +1,4 @@
-package cn.blmdz.admin.services.realm;
+package cn.blmdz.admin.services.shiro;
 
 import java.util.Set;
 

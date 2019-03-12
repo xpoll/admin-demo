@@ -8,22 +8,24 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.blmdz.admin.annotation.ShiroAnalizeClass;
-import cn.blmdz.admin.annotation.ShiroAnalizeMethod;
+import com.alibaba.fastjson.JSON;
 
-@RestController
-@RequestMapping("/test")
-@ShiroAnalizeClass(name = "测试类权限识别", id = 0, order = 0)
+import cn.blmdz.admin.services.shiro.AuthorizationLevelDescriptionAdvisor;
+
+@RestController("/test")
+@RequestMapping(name="测试类权限识别")
 public class TestShiroController {
+	
+	@Autowired AuthorizationLevelDescriptionAdvisor authorizationLevelDescriptionAdvisor;
     
     @RequiresUser
-    @GetMapping("/t01")
-    @ShiroAnalizeMethod(include = { "" }, name = "测试权限识别名称-t01")
+    @GetMapping(value="/t01", name="测试权限识别名称-t01")
     public String test01() {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         methodName = "enter in method " + methodName + " ...";
@@ -41,8 +43,7 @@ public class TestShiroController {
     }
 
     @RequiresGuest
-    @GetMapping("/t03")
-    @ShiroAnalizeMethod(include = { "" }, name = "测试权限识别名称-t03")
+    @GetMapping(value="/t03", name="测试权限识别名称-t03")
     public String test03() {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         methodName = "enter in method " + methodName + " ...";
@@ -94,6 +95,15 @@ public class TestShiroController {
         System.out.println(methodName);
         return methodName;
     }
+
+    @GetMapping("/t88")
+    public String test88() {
+        String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        methodName = "enter in method " + methodName + " ...";
+        System.out.println(methodName);
+        System.out.println(JSON.toJSONString(authorizationLevelDescriptionAdvisor.getResourceClasses()));
+        return methodName;
+    }
     
 
 
@@ -134,4 +144,5 @@ public class TestShiroController {
         
         return methodName;
     }
+    
 }
