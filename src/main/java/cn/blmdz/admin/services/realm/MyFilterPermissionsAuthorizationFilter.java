@@ -24,6 +24,7 @@ public class MyFilterPermissionsAuthorizationFilter extends PermissionsAuthoriza
 
         @Override
         public boolean onAccessDenied(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
+            System.out.println("--------------------------------------理论上不会进来--------------------------------------");
 
 
             Subject subject = getSubject(request, response);

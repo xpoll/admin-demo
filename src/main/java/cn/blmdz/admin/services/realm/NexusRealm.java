@@ -7,10 +7,14 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+
+import com.google.common.collect.Sets;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +26,23 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class NexusRealm extends AuthorizingRealm {
+
+    public NexusRealm() {
+        super(null, null);
+    }
+
+    public NexusRealm(CacheManager cacheManager) {
+        this(cacheManager, null);
+    }
+
+    public NexusRealm(CredentialsMatcher matcher) {
+        this(null, matcher);
+    }
+
+    public NexusRealm(CacheManager cacheManager, CredentialsMatcher matcher) {
+        super(cacheManager, matcher);
+    }
+    
 	
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
@@ -36,8 +57,8 @@ public class NexusRealm extends AuthorizingRealm {
 		 * Hashing.md5().hashString(password, Charsets.UTF_8).toString()
 		 * UnknownAccountException
 		 * IncorrectCredentialsException
-		 * ExcessiveAttemptsException
 		 * LockedAccountException
+		 * ExcessiveAttemptsException
 		 * AuthenticationException
 		 * 
 		 */
@@ -47,16 +68,20 @@ public class NexusRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection paramPrincipalCollection) {
 		
-//		BaseUserBack user = (BaseUserBack) paramPrincipalCollection.getPrimaryPrincipal();
-//		log.debug("-----------------------授权验证:{}", user.getUsername());
+	    UsernamePasswordToken user = (UsernamePasswordToken) paramPrincipalCollection.getPrimaryPrincipal();
+		log.debug("-----------------------授权验证:{}", user.getUsername());
 		
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		Set<String> permissions = null;//authsManager.getAuthsByUser(user);
+		Set<String> permissions = Sets.newHashSet();
+        info.setRoles(Sets.newHashSet(user.getUsername()));
+		if (user.getUsername().equals("login01")) {
+		    permissions.add("test01");
+		} else if (user.getUsername().equals("login02")) {
+            permissions.add("test02");
+        }
 		
-//		log.debug("{} 's roles:{}", user.getUsername(), user.getType().toString().toLowerCase());
-//		log.debug("{} 's permissions:{}", user.getUsername(), permissions);
-//		
-//		info.setRoles(Sets.newHashSet(user.getType().parent().toString().toLowerCase()));
+		log.debug("{} 's roles:{}", user.getUsername(), user.getUsername());
+		log.debug("{} 's permissions:{}", user.getUsername(), permissions);
 		if (CollectionUtils.isNotEmpty(permissions)) info.setStringPermissions(permissions);
 		return info;
 	}

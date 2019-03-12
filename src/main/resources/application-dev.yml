@@ -1,7 +1,7 @@
 logging:
   file: /var/log/spring-boot.log
-  level.*: INFO
-  level.cn.blmdz: INFO
+  level.*: DEBUG
+  level.cn.blmdz: DEBUG
 
 server:
   context-path: /

@@ -6,6 +6,8 @@ public enum EnumsError {
 	ERROR_1200(1200, "success"),
 
     ERROR_8001(8001, "没有权限"),
+    ERROR_8002(8002, "没有登陆"),
+    ERROR_8003(8003, "Shiro权限异常"),
 	ERROR_9994(9994, "不支持的RequestMethod参数类型"),
 	ERROR_9995(9995, "缺少必要RequestParam参数"),
 	ERROR_9996(9996, "不支持的MediaType类型"),
