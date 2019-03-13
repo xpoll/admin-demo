@@ -18,8 +18,8 @@ import com.alibaba.fastjson.JSON;
 
 import cn.blmdz.admin.services.shiro.AuthorizationLevelDescriptionAdvisor;
 
-@RestController("/test")
-@RequestMapping(name="测试类权限识别")
+@RestController
+@RequestMapping(name="测试类权限识别", value="/test")
 public class TestShiroController {
 	
 	@Autowired AuthorizationLevelDescriptionAdvisor authorizationLevelDescriptionAdvisor;

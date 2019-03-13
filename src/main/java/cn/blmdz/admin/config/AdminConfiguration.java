@@ -76,6 +76,7 @@ public class AdminConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(new HandlerInterceptor() {
         	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
         			ModelAndView modelAndView) throws Exception {
+        	    System.out.println(request.getRequestURI() + " : " +response.getStatus());
         		if (response.getStatus() == 404 && modelAndView != null)
         			modelAndView.setViewName("/404.html");
         	}
